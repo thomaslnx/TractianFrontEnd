@@ -1,0 +1,17 @@
+@import '~antd/dist/antd.css';
+
+*, html, body, #root {
+  padding: 0;
+  outline: 0;
+  margin: 0;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+.main-layout {
+  background: #f8f8f8;
+  padding: 0;
+  min-height: 100vh !important;
+}

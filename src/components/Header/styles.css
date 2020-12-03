@@ -1,0 +1,12 @@
+.container-header {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 15;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
+}
