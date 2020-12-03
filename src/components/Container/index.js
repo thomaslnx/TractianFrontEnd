@@ -53,7 +53,7 @@ const Container = () => {
 
       <div className='assets-content'>
         <Row gutter={[16,32]}>
-          <Col xl={12} xxl={12}>
+          <Col xl={16} xxl={16}>
             <Title level={3} style={{ textAlign: 'center', color: '#ffffff', background: '#213d59', borderTopLeftRadius: '4px', borderTopRightRadius: '4px' }}>
               Assets
             </Title>
@@ -69,7 +69,7 @@ const Container = () => {
             </div>
           </Col>
 
-          <Col xl={12} xxl={12}>
+          <Col xl={4} xxl={4}>
             <Title level={3} style={{ textAlign: 'center', color: '#ffffff', background: '#213d59', borderTopLeftRadius: '4px', borderTopRightRadius: '4px' }}>
               Health Assets
             </Title>
@@ -79,6 +79,22 @@ const Container = () => {
               {
                 assets.map(item => (
                   item.branchOwner === unitSelected ? <div>{item.healthscore}</div> : <div> </div>
+                  ))
+              }
+              </div>
+            </div>
+          </Col>
+
+          <Col xl={4} xxl={4}>
+            <Title level={3} style={{ textAlign: 'center', color: '#ffffff', background: '#213d59', borderTopLeftRadius: '4px', borderTopRightRadius: '4px' }}>
+              Assets Status
+            </Title>
+
+            <div className='content'>
+              <div className='statusAssetsContent'>
+              {
+                assets.map(item => (
+                  item.branchOwner === unitSelected ? <div>{item.status}</div> : <div> </div>
                   ))
               }
               </div>
