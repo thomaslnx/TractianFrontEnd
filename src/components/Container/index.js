@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Row, Col, Typography, Select } from 'antd';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
 import api from '../../services/api';
 import './container.css';
@@ -7,11 +9,38 @@ import './container.css';
 const { Title } = Typography;
 const { Option } = Select;
 
+
 const Container = () => {
   const [assets, setAssets] = useState([]);
   const [units, setUnits] = useState([]);
   const [unitSelected, setUnitSelected] = useState();
-  const [selectedAssets, setSelectedAssets] = useState([]);
+  const [healthStatus, setHealthStatus] = useState([]);
+
+  const options = {
+    title: {
+      text: ''
+    },
+    yAxis: {
+      categories: [
+        '0%',
+        '10%',
+        '20%',
+        '30%',
+        '40%',
+        '50%',
+        '60%',
+        '70%',
+        '80%',
+        '90%',
+        '100%']
+    },
+    series: [
+      {
+        type: 'bar',
+        data: healthStatus
+      }
+    ]
+  }
 
   useEffect(async() => {
     const assets = await api.get('https://challenge-tractian.herokuapp.com/branchassets');
@@ -22,6 +51,7 @@ const Container = () => {
 
   function handleSelectChange(value) {
     let unitId;
+    let assetsHealthStatus = [];
 
     units.find(unit => {
       if (unit.name === value) {
@@ -31,6 +61,17 @@ const Container = () => {
       }
     });
 
+    assets.map(item => {
+      if (item.branchOwner === unitId) {
+        // remover o sinal de procentagem
+        let status = item.healthscore.slice(0, -1);
+        assetsHealthStatus.push(status / 10);
+      }
+    })
+
+    console.log('valor de assetsHealthStatus: ', assetsHealthStatus);
+
+    setHealthStatus(assetsHealthStatus);
     setUnitSelected(unitId);
   }
 
@@ -62,7 +103,7 @@ const Container = () => {
               <div className='assetsContent'>
                 {
                   assets.map(item => (
-                    item.branchOwner === unitSelected ? <div>{item.name}</div> : <div> </div>
+                  item.branchOwner === unitSelected ? <div>{item.name}</div> : <div> </div>
                     ))
                 }
               </div>
@@ -107,9 +148,12 @@ const Container = () => {
       <Row justify='center'>
         <Col span={24}>
           <Title level={3} style={{ textAlign:'center', color: '#ffffff', background: '#213d59' }} >
-            Graph
+            Assets Graph
           </Title>
-          <p>GRAPH Content</p>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={options}
+          />{console.log('Valor de health status: ', healthStatus)}
         </Col>
       </Row>
     </div>
